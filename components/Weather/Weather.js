@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
 import {LinearGradient} from 'expo';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import PropTypes from 'prop-types';
+import Button from "../Button";
+import App from "../../App"
 
 const weatherCases = {
     Rain: {
@@ -46,22 +48,32 @@ const weatherCases = {
         title: "Haze",
         subtitle: "Eat some pizza!",
         icon: "weather-fog"
+    },
+    Mist: {
+        colors: ['#662500','#E4A37E'],
+        title: "Mist",
+        subtitle: "Watch out while driving!",
+        icon: "weather-fog"
     }
 }
 
-function Weather({weatherName, temp }){
-    console.log(weatherName)
+function Weather({weatherName, temp, restartApp, isLoaded, loadedApp }){
+    // const {isLoaded1, restartApp, loadedApp} = this.props
+    console.log(isLoaded)
+    // if(!isLoaded){<App/>}
     return(
         <LinearGradient 
             colors={weatherCases[weatherName].colors} 
             style={styles.container}
         >
             <View style={styles.upper}>
-                <MaterialCommunityIcons 
-                color="white" 
-                size={144} 
-                name={weatherCases[weatherName].icon} 
-                />
+                { !isLoaded && 
+                (<Button iconName={weatherCases[weatherName].icon} onPress={loadedApp} />)
+                }
+                { isLoaded && 
+                (<Button iconName={weatherCases[weatherName].icon} onPress={restartApp} />)
+                }
+                {/* <Button iconName={weatherCases[weatherName].icon} onPress={restartApp} /> */}
                 <Text style={styles.temp}>{temp}°</Text>
             </View>
             <View style={styles.lower}>
